@@ -4,13 +4,15 @@ define([
 	'dojo/date'
 ], function (registerSuite, assert, date) {
 
-	function FakeDate(str, strLocale){
+	// Create a fake Date object with toString and toLocaleString
+	// results manually set to simulate tests for multiple browsers
+	function FakeDate(str, strLocale) {
 		this.str = str || '';
 		this.strLocale = strLocale || '';
-		this.toString = function(){
+		this.toString = function () {
 			return this.str;
 		};
-		this.toLocaleString = function(){
+		this.toLocaleString = function () {
 			return this.strLocale;
 		};
 	}
@@ -19,38 +21,38 @@ define([
 	registerSuite({
 		name: 'dojo/date',
 		'.getDaysInMonth': {
-			'not February': function(){
-				assert.strictEqual(date.getDaysInMonth(new Date(2014,0,1)), 31);
-				assert.strictEqual(date.getDaysInMonth(new Date(2014,2,1)), 31);
-				assert.strictEqual(date.getDaysInMonth(new Date(2014,3,1)), 30);
-				assert.strictEqual(date.getDaysInMonth(new Date(2014,4,1)), 31);
-				assert.strictEqual(date.getDaysInMonth(new Date(2014,5,1)), 30);
-				assert.strictEqual(date.getDaysInMonth(new Date(2014,6,1)), 31);
-				assert.strictEqual(date.getDaysInMonth(new Date(2014,7,1)), 31);
-				assert.strictEqual(date.getDaysInMonth(new Date(2014,8,1)), 30);
-				assert.strictEqual(date.getDaysInMonth(new Date(2014,9,1)), 31);
-				assert.strictEqual(date.getDaysInMonth(new Date(2014,10,1)), 30);
-				assert.strictEqual(date.getDaysInMonth(new Date(2014,11,1)), 31);
+			'not February': function () {
+				assert.strictEqual(date.getDaysInMonth(new Date(2014, 0, 1)), 31);
+				assert.strictEqual(date.getDaysInMonth(new Date(2014, 2, 1)), 31);
+				assert.strictEqual(date.getDaysInMonth(new Date(2014, 3, 1)), 30);
+				assert.strictEqual(date.getDaysInMonth(new Date(2014, 4, 1)), 31);
+				assert.strictEqual(date.getDaysInMonth(new Date(2014, 5, 1)), 30);
+				assert.strictEqual(date.getDaysInMonth(new Date(2014, 6, 1)), 31);
+				assert.strictEqual(date.getDaysInMonth(new Date(2014, 7, 1)), 31);
+				assert.strictEqual(date.getDaysInMonth(new Date(2014, 8, 1)), 30);
+				assert.strictEqual(date.getDaysInMonth(new Date(2014, 9, 1)), 31);
+				assert.strictEqual(date.getDaysInMonth(new Date(2014, 10, 1)), 30);
+				assert.strictEqual(date.getDaysInMonth(new Date(2014, 11, 1)), 31);
 			},
-			'Februarys': function(){
-				assert.strictEqual(date.getDaysInMonth(new Date(2014,1,1)), 28);
-				assert.strictEqual(date.getDaysInMonth(new Date(2004,1,1)), 29);
-				assert.strictEqual(date.getDaysInMonth(new Date(2000,1,1)), 29);
-				assert.strictEqual(date.getDaysInMonth(new Date(1900,1,1)), 28);
-				assert.strictEqual(date.getDaysInMonth(new Date(1800,1,1)), 28);
-				assert.strictEqual(date.getDaysInMonth(new Date(1700,1,1)), 28);
-				assert.strictEqual(date.getDaysInMonth(new Date(1600,1,1)), 29);
+			'Februarys': function () {
+				assert.strictEqual(date.getDaysInMonth(new Date(2014, 1, 1)), 28);
+				assert.strictEqual(date.getDaysInMonth(new Date(2004, 1, 1)), 29);
+				assert.strictEqual(date.getDaysInMonth(new Date(2000, 1, 1)), 29);
+				assert.strictEqual(date.getDaysInMonth(new Date(1900, 1, 1)), 28);
+				assert.strictEqual(date.getDaysInMonth(new Date(1800, 1, 1)), 28);
+				assert.strictEqual(date.getDaysInMonth(new Date(1700, 1, 1)), 28);
+				assert.strictEqual(date.getDaysInMonth(new Date(1600, 1, 1)), 29);
 			}
 		},
 		'.isLeapYear': {
-			'leap years': function(){
-				assert.ok(!date.isLeapYear(new Date(2014,0,1)));
-				assert.ok(date.isLeapYear(new Date(2012,0,1)));
-				assert.ok(date.isLeapYear(new Date(2000,0,1)));
-				assert.ok(!date.isLeapYear(new Date(1900,0,1)));
-				assert.ok(!date.isLeapYear(new Date(1800,0,1)));
-				assert.ok(!date.isLeapYear(new Date(1700,0,1)));
-				assert.ok(date.isLeapYear(new Date(1600,0,1)));
+			'leap years': function () {
+				assert.isFalse(date.isLeapYear(new Date(2014, 0, 1)));
+				assert.isTrue(date.isLeapYear(new Date(2012, 0, 1)));
+				assert.isTrue(date.isLeapYear(new Date(2000, 0, 1)));
+				assert.isFalse(date.isLeapYear(new Date(1900, 0, 1)));
+				assert.isFalse(date.isLeapYear(new Date(1800, 0, 1)));
+				assert.isFalse(date.isLeapYear(new Date(1700, 0, 1)));
+				assert.isTrue(date.isLeapYear(new Date(1600, 0, 1)));
 			}
 		},
 		// The getTimezone function pulls from either the date's toString or
@@ -61,39 +63,39 @@ define([
 		// produced by various browser/OS combinations.
 		// FIXME: the function and tests are not localized.
 		'.getTimezoneName': {
-			'Firefox 26.0 on Ubuntu 12.04': function(){
+			'Firefox 26.0 on Ubuntu 12.04': function () {
 				dt.str = 'Sat Feb 15 2014 12:01:46 GMT+0000 (GMT)';
 				dt.strLocale = 'Sat 15 Feb 2014 12:07:19 GMT';
 				assert.strictEqual(date.getTimezoneName(dt), 'GMT');
 			},
-			'Safari 2.0 on Mac OS X 10.4': function(){
+			'Safari 2.0 on Mac OS X 10.4': function () {
 				dt.str = 'Sun Sep 17 2006 22:55:01 GMT-0500';
 				dt.strLocale = 'September 17, 2006 10:55:01 PM CDT';
 				assert.strictEqual(date.getTimezoneName(dt), 'CDT');
 			},
-			'Firefox 1.5 Mac OS X 10.4': function(){
+			'Firefox 1.5 Mac OS X 10.4': function () {
 				dt.str = 'Sun Sep 17 2006 22:57:18 GMT-0500 (CDT)';
 				dt.strLocale = 'Sun Sep 17 22:57:18 2006';
 				assert.strictEqual(date.getTimezoneName(dt), 'CDT');
 			},
 			// no TZ data expect empty string return
-			'Opera 9 Mac OS X 10.4': function(){
+			'Opera 9 Mac OS X 10.4': function () {
 				dt.str = 'Sun, 17 Sep 2006 22:58:06 GMT-0500';
 				dt.strLocale = 'Sunday September 17, 22:58:06 GMT-0500 2006';
 				assert.strictEqual(date.getTimezoneName(dt), '');
 			},
-			'IE 6 Windows XP': function(){
+			'IE 6 Windows XP': function () {
 				dt.str = 'Mon Sep 18 11:21:07 CDT 2006';
 				dt.strLocale = 'Monday, September 18, 2006 11:21:07 AM';
 				assert.strictEqual(date.getTimezoneName(dt), 'CDT');
 			},
 			// no TZ data expect empty string return
-			'Opera 9 Ubuntu Linux (Breezy)': function(){
+			'Opera 9 Ubuntu Linux (Breezy)': function () {
 				dt.str = 'Mon, 18 Sep 2006 13:30:32 GMT-0500';
 				dt.strLocale = 'Monday September 18, 13:30:32 GMT-0500 2006';
 				assert.strictEqual(date.getTimezoneName(dt), '');
 			},
-			'IE 5.5 Windows 2000': function(){
+			'IE 5.5 Windows 2000': function () {
 				dt.str = 'Mon Sep 18 13:49:22 CDT 2006';
 				dt.strLocale = 'Monday, September 18, 2006 1:49:22 PM';
 				assert.strictEqual(date.getTimezoneName(dt), 'CDT');
@@ -102,23 +104,23 @@ define([
 	});
 
 	registerSuite({
-		name: 'dojo/date/math',
-		'.compare': {
-			'date compare': function(){
-				var d1=new Date();
+		name: 'dojo/date math',
+		'.compare': [
+			function () {
+				var d1 = new Date();
 				d1.setHours(0);
-				var d2=new Date();
+				var d2 = new Date();
 				d2.setFullYear(2005);
 				d2.setHours(12);
 				assert.strictEqual(date.compare(d1, d1), 0);
-				assert.strictEqual(date.compare(d1, d2, "date"), 1);
-				assert.strictEqual(date.compare(d2, d1, "date"), -1);
-				assert.strictEqual(date.compare(d1, d2, "time"), -1);
-				assert.strictEqual(date.compare(d1, d2, "datetime"), 1);
+				assert.strictEqual(date.compare(d1, d2, 'date'), 1);
+				assert.strictEqual(date.compare(d2, d1, 'date'), -1);
+				assert.strictEqual(date.compare(d1, d2, 'time'), -1);
+				assert.strictEqual(date.compare(d1, d2, 'datetime'), 1);
 			}
-		},
+		],
 		'.add': {
-			'year interval': function(){
+			'year interval': function () {
 				var interv = 'year';
 
 				var dtA = new Date(2014, 11, 27); // Date to increment
@@ -145,7 +147,7 @@ define([
 				dtB = new Date(2030, 11, 31);
 				assert.deepEqual(date.add(dtA, interv, 35), dtB);
 			},
-			'quarter interval': function(){
+			'quarter interval': function () {
 				var interv = 'quarter';
 
 				var dtA = new Date(2012, 0, 1);
@@ -160,7 +162,7 @@ define([
 				dtB = new Date(2013, 1, 28);
 				assert.deepEqual(date.add(dtA, interv, 4), dtB);
 			},
-			'month interval': function(){
+			'month interval': function () {
 				var interv = 'month';
 
 				var dtA = new Date(2012, 0, 1);
@@ -175,14 +177,14 @@ define([
 				dtB = new Date(2013, 1, 28);
 				assert.deepEqual(date.add(dtA, interv, 12), dtB);
 			},
-			'week interval': function(){
+			'week interval': function () {
 				var interv = 'week';
 
 				var dtA = new Date(2012, 0, 1);
 				var dtB = new Date(2012, 0, 8);
 				assert.deepEqual(date.add(dtA, interv, 1), dtB);
 			},
-			'day interval': function(){
+			'day interval': function () {
 				var interv = 'day';
 
 				var dtA = new Date(2012, 0, 1);
@@ -217,7 +219,7 @@ define([
 				dtB = new Date(2011, 11, 31);
 				assert.deepEqual(date.add(dtA, interv, -1), dtB);
 			},
-			'weekday interval': function(){
+			'weekday interval': function () {
 				var interv = 'weekday';
 
 				// Sat, Jan 1
@@ -268,7 +270,7 @@ define([
 				dtB = new Date(2000, 0, 7);
 				assert.deepEqual(date.add(dtA, interv, -11), dtB);
 			},
-			'hour interval': function(){
+			'hour interval': function () {
 				var interv = 'hour';
 
 				var dtA = new Date(2012, 0, 1, 11);
@@ -287,7 +289,7 @@ define([
 				dtB = new Date(2014, 0, 1, 0);
 				assert.deepEqual(date.add(dtA, interv, 1), dtB);
 			},
-			'minute interval': function(){
+			'minute interval': function () {
 				var interv = 'minute';
 
 				var dtA = new Date(2012, 11, 31, 23, 59);
@@ -298,7 +300,7 @@ define([
 				dtB = new Date(2012, 11, 27, 13, 2);
 				assert.deepEqual(date.add(dtA, interv, 60), dtB);
 			},
-			'second interval': function(){
+			'second interval': function () {
 				var interv = 'second';
 
 				var dtA = new Date(2012, 11, 31, 23, 59, 59);
@@ -308,10 +310,21 @@ define([
 				dtA = new Date(2012, 11, 27, 8, 10, 59);
 				dtB = new Date(2012, 11, 27, 8, 11, 59);
 				assert.deepEqual(date.add(dtA, interv, 60), dtB);
+			},
+			'millisecond interval': function () {
+				var interv = 'millisecond';
+
+				var dtA = new Date(2012, 11, 31, 23, 59, 59, 999);
+				var dtB = new Date(2013, 0, 1, 0, 0, 0, 0);
+				assert.deepEqual(date.add(dtA, interv, 1), dtB);
+
+				dtA = new Date(2012, 11, 27, 8, 10, 53, 2);
+				dtB = new Date(2012, 11, 27, 8, 10, 54, 2);
+				assert.deepEqual(date.add(dtA, interv, 1000), dtB);
 			}
 		},
 		'.diff': {
-			'year interval': function(){
+			'year interval': function () {
 				var interv = 'year';
 
 				var dtA = new Date(2013, 11, 27); // First date to compare
@@ -322,7 +335,7 @@ define([
 				dtB = new Date(2013, 0, 1);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 1);
 			},
-			'quarter interval': function(){
+			'quarter interval': function () {
 				var interv = 'quarter';
 
 				var dtA = new Date(2012, 1, 29);
@@ -333,7 +346,7 @@ define([
 				dtB = new Date(2013, 0, 1);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 1);
 			},
-			'month interval': function(){
+			'month interval': function () {
 				var interv = 'month';
 
 				var dtA = new Date(2012, 1, 29);
@@ -344,7 +357,7 @@ define([
 				dtB = new Date(2013, 0, 1);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 1);
 			},
-			'week interval': function(){
+			'week interval': function () {
 				var interv = 'week';
 
 				var dtA = new Date(2012, 1, 1);
@@ -360,7 +373,7 @@ define([
 				assert.strictEqual(date.difference(dtA, dtB, interv), -1);
 
 			},
-			'day interval': function(){
+			'day interval': function () {
 				var interv = 'day';
 
 				var dtA = new Date(2012, 1, 29);
@@ -378,7 +391,7 @@ define([
 				dtB = new Date(2005, 3, 4);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 1);
 			},
-			'weekday interval': function(){
+			'weekday interval': function () {
 				var interv = 'weekday';
 
 				var dtA = new Date(2006, 7, 3);
@@ -464,7 +477,7 @@ define([
 				dtB = new Date(2006, 7, 6);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 0);
 			},
-			'hour interval': function(){
+			'hour interval': function () {
 				var interv = 'hour';
 
 				var dtA = new Date(2012, 11, 31, 23);
@@ -475,7 +488,7 @@ define([
 				dtB = new Date(2013, 0, 1, 0);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 12);
 			},
-			'minute interval': function(){
+			'minute interval': function () {
 				var interv = 'minute';
 
 				var dtA = new Date(2012, 11, 31, 23, 59);
@@ -486,13 +499,13 @@ define([
 				dtB = new Date(2012, 1, 29, 0, 0);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 1);
 			},
-			'second interval': function(){
+			'second interval': function () {
 				var interv = 'second';
 				var dtA = new Date(2012, 11, 31, 23, 59, 59);
 				var dtB = new Date(2013, 0, 1, 0, 0, 0);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 1);
 			},
-			'millisecond interval': function(){
+			'millisecond interval': function () {
 				var interv = 'millisecond';
 
 				var dtA = new Date(2012, 11, 31, 23, 59, 59, 999);
@@ -505,7 +518,7 @@ define([
 			}
 		},
 		'.add_diff': {
-			'year interval': function(){
+			'year interval': function () {
 				var interv = 'year';
 
 				var dtA = new Date(2005, 11, 27);
@@ -532,7 +545,7 @@ define([
 				dtB = date.add(dtA, interv, 35);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 35);
 			},
-			'quarter interval': function(){
+			'quarter interval': function () {
 				var interv = 'quarter';
 
 				var dtA = new Date(2012, 0, 1);
@@ -547,7 +560,7 @@ define([
 				dtB = date.add(dtA, interv, 4);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 4);
 			},
-			'month interval': function(){
+			'month interval': function () {
 				var interv = 'month';
 
 				var dtA = new Date(2012, 0, 1);
@@ -562,7 +575,7 @@ define([
 				dtB = date.add(dtA, interv, 12);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 12);
 			},
-			'week interval': function(){
+			'week interval': function () {
 				var interv = 'week';
 
 				var dtA = new Date(2012, 0, 1);
@@ -570,7 +583,7 @@ define([
 				assert.strictEqual(date.difference(dtA, dtB, interv), 1);
 
 			},
-			'day interval': function(){
+			'day interval': function () {
 				var interv = 'day';
 
 				var dtA = new Date(2012, 0, 1);
@@ -605,7 +618,7 @@ define([
 				dtB = date.add(dtA, interv, -1);
 				assert.strictEqual(date.difference(dtA, dtB, interv), -1);
 			},
-			'weekday interval': function(){
+			'weekday interval': function () {
 				var interv = 'weekday';
 
 				// Sat, Jan 1
@@ -656,7 +669,7 @@ define([
 				dtB = date.add(dtA, interv, -11);
 				assert.strictEqual(date.difference(dtA, dtB, interv), -11);
 			},
-			'hour interval': function(){
+			'hour interval': function () {
 				var interv = 'hour';
 				var dtA = new Date(2012, 0, 1, 11);
 				var dtB = date.add(dtA, interv, 1);
@@ -674,7 +687,7 @@ define([
 				dtB = date.add(dtA, interv, 1);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 1);
 			},
-			'minute interval': function(){
+			'minute interval': function () {
 				var interv = 'minute';
 
 				var dtA = new Date(2012, 11, 31, 23, 59);
@@ -685,7 +698,7 @@ define([
 				dtB = date.add(dtA, interv, 60);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 60);
 			},
-			'second interval': function(){
+			'second interval': function () {
 				var interv = 'second';
 
 				var dtA = new Date(2012, 11, 31, 23, 59, 59);
@@ -695,20 +708,18 @@ define([
 				dtA = new Date(2012, 11, 27, 8, 10, 59);
 				dtB = date.add(dtA, interv, 60);
 				assert.strictEqual(date.difference(dtA, dtB, interv), 60);
+			},
+			'millisecond interval': function () {
+				var interv = 'millisecond';
+
+				var dtA = new Date(2012, 11, 31, 23, 59, 59, 999);
+				var dtB = date.add(dtA, interv, 1);
+				assert.strictEqual(date.difference(dtA, dtB, interv), 1);
+
+				dtA = new Date(2012, 11, 27, 8, 10, 53, 2);
+				dtB = date.add(dtA, interv, 1000);
+				assert.strictEqual(date.difference(dtA, dtB, interv), 1000);
 			}
-
-			// Test environment JS Date doesn't support millisec?
-			// 'millisecond interval': function(){
-			// 	var interv = 'millisecond';
-
-			// 	var dtA = new Date(2012, 11, 31, 23, 59, 59, 999);
-			// 	var dtB = date.add(dtA, interv, 1);
-			// 	assert.strictEqual(date.difference(dtA, dtB, interv), 1);
-
-			// 	dtA = new Date(2012, 11, 27, 8, 10, 53, 2);
-			// 	dtB = date.add(dtA, interv, 1000);
-			// 	assert.strictEqual(date.difference(dtA, dtB, interv), 1000);
-			// }
 		},
 
 	});
