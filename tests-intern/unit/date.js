@@ -105,20 +105,18 @@ define([
 
 	registerSuite({
 		name: 'dojo/date math',
-		'.compare': [
-			function () {
-				var d1 = new Date();
-				d1.setHours(0);
-				var d2 = new Date();
-				d2.setFullYear(2005);
-				d2.setHours(12);
-				assert.strictEqual(date.compare(d1, d1), 0);
-				assert.strictEqual(date.compare(d1, d2, 'date'), 1);
-				assert.strictEqual(date.compare(d2, d1, 'date'), -1);
-				assert.strictEqual(date.compare(d1, d2, 'time'), -1);
-				assert.strictEqual(date.compare(d1, d2, 'datetime'), 1);
-			}
-		],
+		'.compare': function () {
+			var d1 = new Date();
+			d1.setHours(0);
+			var d2 = new Date();
+			d2.setFullYear(2005);
+			d2.setHours(12);
+			assert.strictEqual(date.compare(d1, d1), 0);
+			assert.strictEqual(date.compare(d1, d2, 'date'), 1);
+			assert.strictEqual(date.compare(d2, d1, 'date'), -1);
+			assert.strictEqual(date.compare(d1, d2, 'time'), -1);
+			assert.strictEqual(date.compare(d1, d2, 'datetime'), 1);
+		},
 		'.add': {
 			'year interval': function () {
 				var interv = 'year';
